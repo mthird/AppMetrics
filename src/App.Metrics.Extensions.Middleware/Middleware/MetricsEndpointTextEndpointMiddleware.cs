@@ -23,7 +23,6 @@ namespace App.Metrics.Extensions.Middleware.Middleware
             IMetrics metrics)
             : base(next, aspNetOptions, loggerFactory, metrics)
         {
-            _stringReporter = new StringReporter();
             _reportGenerator = new DefaultReportGenerator();
         }
 
@@ -32,10 +31,11 @@ namespace App.Metrics.Extensions.Middleware.Middleware
             if (Options.MetricsTextEndpointEnabled && Options.MetricsTextEndpoint.IsPresent() && Options.MetricsTextEndpoint == context.Request.Path)
             {
                 Logger.MiddlewareExecuting(GetType());
-                
-                await _reportGenerator.Generate(_stringReporter, Metrics, context.RequestAborted);
+             
+                StringReporter stringReporter = new StringReporter();
+                await _reportGenerator.Generate(stringReporter, Metrics, context.RequestAborted);
 
-                await WriteResponseAsync(context, _stringReporter.Result, "text/plain");
+                await WriteResponseAsync(context, stringReporter.Result, "text/plain");
 
                 Logger.MiddlewareExecuted(GetType());
 
