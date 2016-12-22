@@ -15,7 +15,6 @@ namespace App.Metrics.Extensions.Middleware.Middleware
     public class MetricsEndpointTextEndpointMiddleware : AppMetricsMiddleware<AspNetMetricsOptions>
     {
         private readonly DefaultReportGenerator _reportGenerator;
-        private readonly StringReporter _stringReporter;
 
         public MetricsEndpointTextEndpointMiddleware(RequestDelegate next,
             AspNetMetricsOptions aspNetOptions,
